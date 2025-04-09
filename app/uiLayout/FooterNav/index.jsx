@@ -13,7 +13,7 @@ import {
   Globe,
   PlaySquare,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import MiniMainButton from "./smallButton";
 
 const categories = [

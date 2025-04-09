@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import { Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
