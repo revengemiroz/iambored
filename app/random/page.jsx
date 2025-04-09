@@ -11,6 +11,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import Navbar from "../uiLayout/Navbar";
+import FooterNav from "../uiLayout/FooterNav";
 
 // Sample destinations
 const destinations = [
@@ -40,12 +41,10 @@ export default function RandomPage() {
     }
   };
 
-  // Prevent hydration error by setting only on client
   useEffect(() => {
     setCurrentSite(getRandomSite());
   }, []);
 
-  // Handle iframe errors
   useEffect(() => {
     if (!currentSite) return;
 
@@ -66,18 +65,18 @@ export default function RandomPage() {
   }, [currentSite]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-hidden">
       {/* Navbar */}
       {currentSite && <Navbar title={currentSite.title} />}
 
-      {/* Content */}
-      <div className="flex-1 w-full relative">
-        {currentSite && (
+      {/* Content Area */}
+      <div className="flex-1 relative overflow-hidden">
+        {currentSite && !iframeError && (
           <iframe
             ref={iframeRef}
             src={currentSite.url}
             title={currentSite.title}
-            className="w-full h-full border-0"
+            className="absolute inset-0 w-full h-full border-0"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
             onLoad={() => setIframeError(false)}
             onError={() => setIframeError(true)}
@@ -110,7 +109,8 @@ export default function RandomPage() {
         )}
       </div>
 
-      {/* Optional Bottom bar or footer here */}
+      {/* Footer */}
+      <FooterNav />
     </div>
   );
 }

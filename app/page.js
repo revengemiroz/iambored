@@ -2,6 +2,7 @@ import Image from "next/image";
 import MainButton from "./uiLayout/MainButton";
 import Link from "next/link";
 import HomeNav from "./uiLayout/HomeNav";
+import Footer from "./uiLayout/Footer";
 
 export default function Home() {
   return (
@@ -164,6 +165,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
