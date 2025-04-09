@@ -111,8 +111,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      <section className="w-3/4 mx-auto py-16 bg-rose-50 rounded-xl">
+      <section className="w-3/4 mx-auto mb-12 py-16 bg-rose-50 rounded-xl">
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold mb-8">
             Frequently Asked Questions
@@ -151,8 +150,11 @@ export default function Home() {
                 a: "Our team personally reviews each submission to ensure it's high-quality, safe, and genuinely interesting before adding it to our collection.",
               },
             ].map(({ q, a }, idx) => (
-              <div key={idx}>
-                <h3 className="text-xl font-semibold mb-1">{q}</h3>
+              <div
+                key={idx}
+                className="bg-white rounded-lg p-5 shadow-sm transition hover:shadow-md"
+              >
+                <h3 className="text-lg font-semibold mb-1">{q}</h3>
                 <p className="text-sm">{a}</p>
               </div>
             ))}
