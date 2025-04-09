@@ -1,10 +1,13 @@
 import Image from "next/image";
 import MainButton from "./uiLayout/MainButton";
 import Link from "next/link";
+import HomeNav from "./uiLayout/HomeNav";
 
 export default function Home() {
   return (
     <main className="flex-1">
+      <HomeNav />
+
       <section className="w-full py-12 bg-gradient-to-b from-white to-rose-50">
         <div className="w-3/4 mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-10">
           <div className="space-y-4">
