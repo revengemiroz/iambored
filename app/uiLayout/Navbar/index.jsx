@@ -24,18 +24,18 @@ function NavBar({ title, onRefreshClick, onOpenClick }) {
 
         {/* Right side actions */}
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 justify-end">
-          <p className="text-sm text-gray-600 hidden md:block">
+          {/* <p className="text-sm text-gray-600 hidden md:block">
             Still bored? Press the Bored Button™ again.
-          </p>
+          </p> */}
 
-          <Button
+          {/* <Button
             // onClick={onRefreshClick}
             size="sm"
             className="bg-rose-600 hover:bg-rose-700 rounded-full h-9 w-9 p-0"
             aria-label="Get another random site"
           >
             <RefreshCw className="h-4 w-4" />
-          </Button>
+          </Button> */}
 
           <Button
             // onClick={onOpenClick}
