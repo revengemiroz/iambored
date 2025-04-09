@@ -71,6 +71,7 @@ export default function RandomPage() {
             ref={iframeRef}
             src={currentSite.url}
             title={currentSite.title}
+            allow="autoplay"
             className="absolute inset-0 w-full h-full border-0"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
             onLoad={() => setIframeError(false)}
