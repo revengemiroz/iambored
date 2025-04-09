@@ -24,7 +24,7 @@ const destinations = [
   { url: "https://www.incredibox.com/", title: "Incredibox - Make music" },
 ];
 
-export default function MiniMainButton() {
+export default function MiniMainButton({ randomize }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
@@ -65,7 +65,7 @@ export default function MiniMainButton() {
         className="cursor-pointer"
       >
         <Button
-          onClick={handleClick}
+          onClick={randomize}
           disabled={isLoading}
           className="cursor-pointer h-16 w-16 rounded-full bg-gradient-to-br from-rose-500 to-rose-700 text-white p-0 shadow-md border-2 border-white"
           aria-label="Unbore Me"

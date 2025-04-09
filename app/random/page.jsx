@@ -1,50 +1,40 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { Button } from "../../components/ui/button";
 import {
-  Sparkles,
+  AlertTriangle,
+  ExternalLink,
   Home,
   RefreshCw,
-  ExternalLink,
-  AlertTriangle,
+  Sparkles,
 } from "lucide-react";
 import Navbar from "../uiLayout/Navbar";
 import FooterNav from "../uiLayout/FooterNav";
-
-// Sample destinations
-const destinations = [
-  {
-    url: "https://pointerpointer.com/",
-    title: "PointerPointer - Pointing at your pointer",
-  },
-];
-
-// Get a random site
-const getRandomSite = () =>
-  destinations[Math.floor(Math.random() * destinations.length)];
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
 
 export default function RandomPage() {
-  const [currentSite, setCurrentSite] = useState(null);
   const [iframeError, setIframeError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [currentSite, setCurrentSite] = useState(null);
   const iframeRef = useRef(null);
 
-  const handleGetAnother = () => {
-    setCurrentSite(getRandomSite());
-    setIframeError(false);
-  };
+  const category = 5; // Optional: filter by category
+  const randomItem = useQuery(api.functions.items.getRandomItem, {
+    categoryNumber: category,
+    trigger: refreshKey,
+  });
 
-  const openInNewTab = () => {
-    if (currentSite) {
-      window.open(currentSite.url, "_blank");
-    }
-  };
-
+  // When randomItem changes → show it
   useEffect(() => {
-    setCurrentSite(getRandomSite());
-  }, []);
+    if (randomItem) {
+      setCurrentSite(randomItem);
+      setIframeError(false);
+    }
+  }, [randomItem]);
 
+  // Retry logic when iframe load fails
   useEffect(() => {
     if (!currentSite) return;
 
@@ -53,16 +43,27 @@ export default function RandomPage() {
 
     const timeout = setTimeout(() => {
       try {
+        // Accessing cross-origin will throw
         if (!iframe.contentWindow?.location.href) {
           setIframeError(true);
         }
-      } catch (err) {
+      } catch {
         setIframeError(true);
       }
     }, 3000);
 
     return () => clearTimeout(timeout);
   }, [currentSite]);
+
+  const randomize = () => {
+    setRefreshKey((prev) => prev + 1); // triggers new random fetch
+  };
+
+  const openInNewTab = () => {
+    if (currentSite) {
+      window.open(currentSite.url, "_blank");
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
@@ -71,8 +72,10 @@ export default function RandomPage() {
 
       {/* Content Area */}
       <div className="flex-1 relative overflow-hidden">
+        {/* Show iframe if no error */}
         {currentSite && !iframeError && (
           <iframe
+            key={currentSite.url} // ✅ force remount on URL change
             ref={iframeRef}
             src={currentSite.url}
             title={currentSite.title}
@@ -96,7 +99,7 @@ export default function RandomPage() {
                 visit it in a new tab.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
-                <Button variant="outline" onClick={handleGetAnother}>
+                <Button variant="outline" onClick={randomize}>
                   Try Another
                 </Button>
                 <Button onClick={openInNewTab}>
@@ -110,7 +113,7 @@ export default function RandomPage() {
       </div>
 
       {/* Footer */}
-      <FooterNav />
+      <FooterNav randomize={randomize} />
     </div>
   );
 }

@@ -25,7 +25,7 @@ const categories = [
   { label: "Art", icon: <Palette className="h-4 w-4" /> },
 ];
 
-export default function BottomBar() {
+export default function BottomBar({ randomize }) {
   return (
     <div className="fixed bottom-0 inset-x-0 bg-white border-t px-3 py-6 z-50 shadow-md flex items-center justify-between">
       {/* Left arrows */}
@@ -56,7 +56,7 @@ export default function BottomBar() {
           </div>
         ))}
 
-        <MiniMainButton />
+        <MiniMainButton randomize={randomize} />
 
         {categories.slice(3).map((cat, i) => (
           <div
