@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Button } from "../../components/ui/button";
-import {
-  AlertTriangle,
-  ExternalLink,
-  Home,
-  RefreshCw,
-  Sparkles,
-} from "lucide-react";
+import { AlertTriangle, ExternalLink, Loader2 } from "lucide-react";
 import Navbar from "../uiLayout/Navbar";
 import FooterNav from "../uiLayout/FooterNav";
 import { api } from "@/convex/_generated/api";
@@ -18,6 +12,7 @@ export default function RandomPage() {
   const [iframeError, setIframeError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [currentSite, setCurrentSite] = useState(null);
+  const [showLoading, setShowLoading] = useState(true);
   const iframeRef = useRef(null);
 
   const category = 5; // Optional: filter by category
@@ -26,37 +21,30 @@ export default function RandomPage() {
     trigger: refreshKey,
   });
 
-  // When randomItem changes → show it
   useEffect(() => {
     if (randomItem) {
-      setCurrentSite(randomItem);
+      setShowLoading(true);
       setIframeError(false);
+
+      const timeout = setTimeout(() => {
+        setCurrentSite(randomItem);
+        setShowLoading(false);
+      }, 2000);
+
+      return () => clearTimeout(timeout);
     }
   }, [randomItem]);
 
-  // Retry logic when iframe load fails
-  useEffect(() => {
-    if (!currentSite) return;
-
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-
-    const timeout = setTimeout(() => {
-      try {
-        // Accessing cross-origin will throw
-        if (!iframe.contentWindow?.location.href) {
-          setIframeError(true);
-        }
-      } catch {
-        setIframeError(true);
-      }
-    }, 3000);
-
-    return () => clearTimeout(timeout);
-  }, [currentSite]);
-
   const randomize = () => {
-    setRefreshKey((prev) => prev + 1); // triggers new random fetch
+    setIframeError(false);
+    setShowLoading(true);
+    setRefreshKey((prev) => prev + 1);
+  };
+
+  const handleRetry = () => {
+    setIframeError(false);
+    setShowLoading(true);
+    setRefreshKey((prev) => prev + 1);
   };
 
   const openInNewTab = () => {
@@ -67,15 +55,19 @@ export default function RandomPage() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      {/* Navbar */}
       {currentSite && <Navbar title={currentSite.title} />}
 
-      {/* Content Area */}
       <div className="flex-1 relative overflow-hidden">
-        {/* Show iframe if no error */}
-        {currentSite && !iframeError && (
+        {showLoading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10">
+            <Loader2 className="animate-spin w-8 h-8 text-gray-600" />
+            <p className="mt-2 text-gray-500 text-sm">Loading a fun site...</p>
+          </div>
+        )}
+
+        {currentSite && !iframeError && !showLoading && (
           <iframe
-            key={currentSite.url} // ✅ force remount on URL change
+            key={currentSite.url}
             ref={iframeRef}
             src={currentSite.url}
             title={currentSite.title}
@@ -86,9 +78,8 @@ export default function RandomPage() {
           />
         )}
 
-        {/* Error fallback */}
-        {iframeError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white px-6 text-center">
+        {iframeError && !showLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white px-6 text-center z-10">
             <div className="max-w-md mx-auto space-y-5">
               <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto" />
               <h2 className="text-xl font-semibold">
@@ -99,8 +90,8 @@ export default function RandomPage() {
                 visit it in a new tab.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
-                <Button variant="outline" onClick={randomize}>
-                  Try Another
+                <Button variant="outline" onClick={handleRetry}>
+                  Try Again
                 </Button>
                 <Button onClick={openInNewTab}>
                   <ExternalLink className="h-4 w-4 mr-1" />
@@ -112,7 +103,6 @@ export default function RandomPage() {
         )}
       </div>
 
-      {/* Footer */}
       <FooterNav randomize={randomize} />
     </div>
   );
