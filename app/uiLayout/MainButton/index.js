@@ -5,6 +5,7 @@ import { Button } from "../../../components/ui/button";
 import { Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const destinations = [
   { url: "https://neal.fun/", title: "Neal.fun - Interactive experiences" },
@@ -28,17 +29,9 @@ const destinations = [
 export default function MainButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [hoverState, setHoverState] = useState(false);
-
+  const router = useRouter();
   const handleClick = () => {
-    if (isLoading) return;
-    setIsLoading(true);
-
-    setTimeout(() => {
-      const randomDestination =
-        destinations[Math.floor(Math.random() * destinations.length)];
-      window.open(randomDestination.url, "_blank");
-      setIsLoading(false);
-    }, 1000);
+    router.push("/random");
   };
 
   return (
