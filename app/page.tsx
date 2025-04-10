@@ -115,7 +115,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className="w-3/4 mx-auto mb-12 py-16 bg-rose-50 rounded-xl">
+      <section className="w-full sm:w-3/4 mx-auto mb-12 py-16 bg-rose-50 px-8 sm:px-0 rounded-xl">
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold mb-8">
             Frequently Asked Questions
