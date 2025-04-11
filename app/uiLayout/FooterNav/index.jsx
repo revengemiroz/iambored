@@ -17,12 +17,10 @@ import { Button } from "../../../components/ui/button";
 import MiniMainButton from "./smallButton";
 
 const categories = [
-  { label: "Videos", icon: <PlaySquare className="h-4 w-4" /> },
-  { label: "WYR", icon: <Sparkles className="h-4 w-4" /> },
-  { label: "Websites", icon: <Globe className="h-4 w-4" /> },
-  { label: "Polls", icon: <Users className="h-4 w-4" /> },
-  { label: "Games", icon: <Gamepad2 className="h-4 w-4" /> },
-  { label: "Art", icon: <Palette className="h-4 w-4" /> },
+  { label: "Video", icon: <PlaySquare className="h-4 w-4" /> },
+  { label: "Website", icon: <Sparkles className="h-4 w-4" /> },
+  { label: "Game", icon: <Globe className="h-4 w-4" /> },
+  { label: "Art", icon: <Users className="h-4 w-4" /> },
 ];
 
 export default function BottomBar({ randomize }) {
@@ -40,7 +38,7 @@ export default function BottomBar({ randomize }) {
 
       {/* Center categories + main button */}
       <div className="flex items-center gap-2 sm:gap-3">
-        {categories.slice(0, 3).map((cat, i) => (
+        {categories.slice(0, 2).map((cat, i) => (
           <div
             key={i}
             className="flex flex-col items-center text-[11px] text-gray-600"
@@ -58,7 +56,7 @@ export default function BottomBar({ randomize }) {
 
         <MiniMainButton randomize={randomize} />
 
-        {categories.slice(3).map((cat, i) => (
+        {categories.slice(2).map((cat, i) => (
           <div
             key={i}
             className="flex flex-col items-center text-[11px] text-gray-600"

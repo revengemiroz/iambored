@@ -17,11 +17,10 @@ import {
 
 // 👇 Hardcoded demo categories
 const categoryOptions = [
-  { label: "YouTube", value: "1" },
-  { label: "TikTok", value: "2" },
-  { label: "Funny Website", value: "3" },
-  { label: "Game", value: "4" },
-  { label: "Tool", value: "5" },
+  { label: "Video", value: "1" },
+  { label: "Website", value: "2" },
+  { label: "Game", value: "3" },
+  { label: "Art", value: "4" },
 ];
 
 export default function DemoAddItemPage() {

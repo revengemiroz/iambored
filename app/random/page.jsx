@@ -55,7 +55,9 @@ export default function RandomPage() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      {currentSite && <Navbar title={currentSite.title} />}
+      {currentSite && (
+        <Navbar title={currentSite.title} url={currentSite.url} />
+      )}
 
       <div className="flex-1 relative overflow-hidden">
         {showLoading && (

@@ -3,7 +3,7 @@ import { ExternalLink, Home, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-function NavBar({ title, onRefreshClick, onOpenClick }) {
+function NavBar({ title, url, onOpenClick }) {
   return (
     <div className="bg-white border-b shadow-sm z-10 w-full">
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex flex-row sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
@@ -19,7 +19,7 @@ function NavBar({ title, onRefreshClick, onOpenClick }) {
 
           <span className="text-gray-400 hidden sm:inline">|</span>
 
-          <span className="text-sm text-gray-600 truncate max-w-[180px] sm:max-w-xs">
+          <span className="capitalize text-sm font-semibold text-gray-600 truncate max-w-[180px] sm:max-w-xs">
             {title}
           </span>
         </div>
@@ -37,16 +37,21 @@ function NavBar({ title, onRefreshClick, onOpenClick }) {
           </Button> */}
 
           <Button
-            onClick={onOpenClick}
+            onClick={() => window.open(url)}
             variant="outline"
             size="sm"
-            className="flex items-center gap-1"
+            className="cursor-pointer flex items-center gap-1"
           >
             <ExternalLink className="h-4 w-4" />
             <span className="hidden sm:inline">Open</span>
           </Button>
 
-          <Button asChild variant="outline" size="sm">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className={"cursor-pointer"}
+          >
             <Link href="/" className="flex items-center gap-1">
               <Home className="h-4 w-4" />
               <span className="hidden sm:inline">Home</span>
